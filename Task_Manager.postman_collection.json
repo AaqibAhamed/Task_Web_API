@@ -1,0 +1,161 @@
+{
+	"info": {
+		"_postman_id": "8a12c261-e21d-46a7-9384-c21b631c3851",
+		"name": "Task_Manager",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33281128"
+	},
+	"item": [
+		{
+			"name": "GetAllTasks",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{taskportNumber}}/api/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{taskportNumber}}",
+					"path": [
+						"api",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetTask",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{taskportNumber}}/api/tasks/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{taskportNumber}}",
+					"path": [
+						"api",
+						"tasks",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CreateTask",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Test\",\n  \"description\": \"Demo Task\",\n  \"isCompleted\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{taskportNumber}}/api/tasks",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{taskportNumber}}",
+					"path": [
+						"api",
+						"tasks"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateTask",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"Evening Routine\",\n  \"description\": \"Updated Task with ok\",\n  \"isCompleted\": true\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{taskportNumber}}/api/tasks/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{taskportNumber}}",
+					"path": [
+						"api",
+						"tasks",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PartiallyUpdateTask",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n    {\n      \"op\": \"replace\",\n      \"path\": \"/description\",\n      \"value\": \"Updated - New more description via PAtch\"\n    }\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:{{taskportNumber}}/api/tasks/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{taskportNumber}}",
+					"path": [
+						"api",
+						"tasks",
+						"7"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteTask",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:{{taskportNumber}}/api/tasks/7",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "{{taskportNumber}}",
+					"path": [
+						"api",
+						"tasks",
+						"7"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
