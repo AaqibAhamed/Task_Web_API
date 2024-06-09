@@ -1,6 +1,52 @@
-@Task_Web_API_HostAddress = http://localhost:5064
+@Task_Web_API_HostAddress = https://localhost:7138
 
-GET {{Task_Web_API_HostAddress}}/weatherforecast/
-Accept: application/json
+GET {{Task_Web_API_HostAddress}}/api/tasks
+
+###
+
+POST {{Task_Web_API_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+    //TaskCreateDto
+  "title": "Test Task",
+  "description": "Test Des",
+  "isCompleted": true
+}
+
+###
+
+GET {{Task_Web_API_HostAddress}}/api/tasks/1003
+
+###
+
+DELETE {{Task_Web_API_HostAddress}}/api/tasks/1003
+
+###
+
+PATCH {{Task_Web_API_HostAddress}}/api/tasks/1002
+Content-Type: application/json
+
+
+ [
+    {
+      "op": "replace",
+      "path": "/title",
+      "value": "Updated - "
+    }
+]
+
+
+###
+
+PUT {{Task_Web_API_HostAddress}}/api/tasks/1002
+Content-Type: application/json
+
+{
+  //TaskUpdateDto
+   "title": "Test up",
+  "description": "put",
+  "isCompleted": true
+}
 
 ###
