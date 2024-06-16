@@ -45,7 +45,12 @@ public class TaskController : ControllerBase
 
         if (task == null)
         {
-            return NotFound();
+            return NotFound(new ProblemDetails
+            {
+                Status = 404,
+                Title = "Task not found",
+                Detail = "The specified task was not found in the database."
+            });
         }
 
         return Ok(_mapper.Map<TaskDto>(task));
@@ -121,7 +126,7 @@ public class TaskController : ControllerBase
 
         await _taskRepository.SaveChangesAsync();
 
-        return NoContent();
+        return Ok(taskEntity); // NoContent();
     }
 
      [HttpDelete("{id}")]
