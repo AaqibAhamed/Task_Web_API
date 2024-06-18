@@ -1,0 +1,149 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Task_Web_API</name>
+    </assembly>
+    <members>
+        <member name="M:Task_Web_API.Controllers.TaskController.#ctor(AutoMapper.IMapper,ITaskRepository,Microsoft.Extensions.Logging.ILogger{Task_Web_API.Controllers.TaskController})">
+            <summary>
+            
+            </summary>
+            <param name="mapper"></param>
+            <param name="taskRepository"></param>
+            <param name="logger"></param>
+            <exception cref="T:System.ArgumentNullException"></exception>
+        </member>
+        <member name="M:Task_Web_API.Controllers.TaskController.GetAllTasks">
+            <summary>
+            Get All Tasks
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Task_Web_API.Controllers.TaskController.GetTask(System.Int32)">
+            <summary>
+            Get a Task by Id
+            </summary>
+            <param name="id">The Id of the Task to get </param>
+            <returns> A Task with Details</returns>
+        </member>
+        <member name="M:Task_Web_API.Controllers.TaskController.CreateTask(Task_Web_API.Models.TaskCreateDto)">
+            <summary>
+            Create a Task
+            </summary>
+            <param name="task"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Task_Web_API.Controllers.TaskController.UpdateTask(System.Int32,TaskUpdateDto)">
+            <summary>
+            Update a Task
+            </summary>
+            <param name="id"></param>
+            <param name="taskToUpdate"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Task_Web_API.Controllers.TaskController.PartiallyUpdateTask(System.Int32,Microsoft.AspNetCore.JsonPatch.JsonPatchDocument{TaskUpdateDto})">
+            <summary>
+            Partially Update a Task with patchDocument
+            </summary>
+            <param name="id"></param>
+            <param name="patchDocument"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Task_Web_API.Controllers.TaskController.DeleteTask(System.Int32)">
+            <summary>
+            Delete Task
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Task_Web_API.Migrations.InitialMigration">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Task_Web_API.Migrations.SeedInitialData">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.SeedInitialData.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.SeedInitialData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.SeedInitialData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:Task_Web_API.Models.TaskCreateDto">
+            <summary>
+            Task Create Dto
+            </summary>
+        </member>
+        <member name="P:Task_Web_API.Models.TaskCreateDto.Title">
+            <summary>
+             The Title of the Task 
+            </summary>
+        </member>
+        <member name="P:Task_Web_API.Models.TaskCreateDto.Description">
+            <summary>
+             The description of the Task
+            </summary>
+        </member>
+        <member name="P:Task_Web_API.Models.TaskCreateDto.IsCompleted">
+            <summary>
+            Is Task completed or not 
+            </summary>
+        </member>
+        <member name="T:TaskDto">
+            <summary>
+            Task Get Dto
+            </summary>
+        </member>
+        <member name="P:TaskDto.Id">
+            <summary>
+             The Id of the Task 
+            </summary>
+        </member>
+        <member name="P:TaskDto.Title">
+            <summary>
+             The Title of the Task 
+            </summary>
+        </member>
+        <member name="P:TaskDto.Description">
+            <summary>
+            The description of the Task
+            </summary>
+        </member>
+        <member name="P:TaskDto.IsCompleted">
+            <summary>
+              Is Task completed or not 
+            </summary>
+        </member>
+        <member name="T:TaskUpdateDto">
+            <summary>
+            Task Update Dto
+            </summary>
+        </member>
+        <member name="P:TaskUpdateDto.Title">
+            <summary>
+             The Title of the Task 
+            </summary>
+        </member>
+        <member name="P:TaskUpdateDto.Description">
+            <summary>
+             The description of the Task
+            </summary>
+        </member>
+        <member name="P:TaskUpdateDto.IsCompleted">
+            <summary>
+             Is Task completed or not 
+            </summary>
+        </member>
+    </members>
+</doc>
