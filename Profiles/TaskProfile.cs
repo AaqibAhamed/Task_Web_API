@@ -1,4 +1,5 @@
 using AutoMapper;
+using Task_Web_API.Models;
 
 public class TaskProfile : Profile
 {
