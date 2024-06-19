@@ -52,16 +52,17 @@ export class AppComponent implements OnInit {
 
   title = 'task-client-app';
   token = "";
+  url ="https://localhost:7138/api/v1/"
  
   authenticate() {
-    let url = "https://localhost:7138/api/v1/authentication/authenticate";
+    let endPoint = "authentication/authenticate";
 
     let body = {
       "username": "AaqibWiki",
       "password": "This is a relatively long sentence that acts as my password"
     }
 
-    this.http.post(url, body, { responseType: 'text' }).subscribe(
+    this.http.post(this.url + endPoint, body, { responseType: 'text' }).subscribe(
 
       (res) => {
 
@@ -80,7 +81,7 @@ export class AppComponent implements OnInit {
   }
 
   getTasks(tok:any) {
-    let url = "http://localhost:5064/api/v1/tasks";
+    let endPoint = "tasks";
 
     console.log(tok, " token");
 
@@ -90,7 +91,7 @@ export class AppComponent implements OnInit {
     });
     let options = { headers: headers };
 
-    this.http.get<Task[]>(url, options).subscribe(
+    this.http.get<Task[]>(this.url + endPoint, options).subscribe(
       (result) => {
         this.taskData = result;
         console.log(this.taskData, " taskData ")
