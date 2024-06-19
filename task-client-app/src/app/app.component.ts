@@ -48,9 +48,7 @@ export class AppComponent implements OnInit {
 
   }
 
-  ngAfterViewInit() {
-    this.getTasks();
-  }
+ 
 
   title = 'task-client-app';
   token = "";
@@ -71,6 +69,8 @@ export class AppComponent implements OnInit {
 
         console.log(this.token, " res token");
 
+        this.getTasks(this.token);
+
 
       },
       (error) => {
@@ -79,14 +79,14 @@ export class AppComponent implements OnInit {
     );
   }
 
-  getTasks() {
-    let url = "https://localhost:7138/api/v1/tasks";
+  getTasks(tok:any) {
+    let url = "http://localhost:5064/api/v1/tasks";
 
-    console.log(this.token, " token");
+    console.log(tok, " token");
 
     let headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'Authorization': "Bearer " + this.token 
+      'Authorization': "Bearer " + tok
     });
     let options = { headers: headers };
 
