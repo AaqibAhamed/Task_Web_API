@@ -1,1 +1,32 @@
-<p>task-list works!</p>
+<div class="row">
+    <div class="col-md-6">
+      <!-- <app-task-form [task]="selectedTask" (save)="saveTask($event)"></app-task-form> -->
+    </div>
+    <div class="col-md-6">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Status</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let task of tasks">
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.completed ? 'Completed' : 'In Progress' }}</td>
+            <td>
+              <button class="btn btn-primary btn-sm" (click)="selectTask(task)">Edit</button>
+              <button class="btn btn-danger btn-sm" (click)="deleteTask(task)">Delete</button>
+              <button class="btn btn-success btn-sm" (click)="toggleTaskCompletion(task)">
+                {{ task.completed ? 'Mark In Progress' : 'Mark Completed' }}
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
