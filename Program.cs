@@ -21,7 +21,7 @@ if (environment == Environments.Development)
     builder.Host.UseSerilog(
         (context, loggerConfiguration) => loggerConfiguration
             .MinimumLevel.Debug()
-            .WriteTo.File("logs/cityinfo.txt", rollingInterval: RollingInterval.Day)
+            .WriteTo.File("logs/task_mgr.txt", rollingInterval: RollingInterval.Day)
             .WriteTo.Console());
 }
 else
