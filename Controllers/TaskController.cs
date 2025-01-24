@@ -1,10 +1,8 @@
 using Asp.Versioning;
 using AutoMapper;
-using Azure;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Task_Web_API.Models;
 
 namespace Task_Web_API.Controllers
