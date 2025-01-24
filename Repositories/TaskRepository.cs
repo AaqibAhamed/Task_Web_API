@@ -11,26 +11,26 @@ public class TaskRepository : ITaskRepository
 
     public async Task<IEnumerable<ToDoItem>> GetAllTasksAsync()
     {
-        return await _context.Tasks.ToListAsync(); // if required can orderby Title
+        return await _context.ToDoItems.ToListAsync(); // if required can orderby Title
     }
     public  async Task<ToDoItem?> GetTaskAsync(int taskId)
     {
-       return await _context.Tasks.Where(t => t.Id == taskId).FirstOrDefaultAsync();
+       return await _context.ToDoItems.Where(t => t.Id == taskId).FirstOrDefaultAsync();
     }
 
     public void AddTask(ToDoItem task)
     {
-        _context.Tasks.Add(task);
+        _context.ToDoItems.Add(task);
     }
 
     public void DeleteTask(ToDoItem task)
     {
-        _context.Tasks.Remove(task);
+        _context.ToDoItems.Remove(task);
     }
 
     public async Task<bool> TaskExistsAsync(int taskId)
     {
-       return await _context.Tasks.AnyAsync(t => t.Id == taskId);
+       return await _context.ToDoItems.AnyAsync(t => t.Id == taskId);
     }
 
     public async Task<bool> SaveChangesAsync()
@@ -40,13 +40,13 @@ public class TaskRepository : ITaskRepository
 
     public async Task<IEnumerable<ToDoItem>> GetAllCompletedTasksAsync(bool? IsCompleted)
     {
-        return await _context.Tasks.Where(t => t.IsCompleted == true ).ToListAsync();
+        return await _context.ToDoItems.Where(t => t.IsCompleted == true ).ToListAsync();
       
     }
 
     public async Task<IEnumerable<ToDoItem>> GetAllPendingTasksAsync(bool? IsCompleted)
     {
-         return await _context.Tasks.Where(t => t.IsCompleted == false ).ToListAsync();
+         return await _context.ToDoItems.Where(t => t.IsCompleted == false ).ToListAsync();
     }
 
 
