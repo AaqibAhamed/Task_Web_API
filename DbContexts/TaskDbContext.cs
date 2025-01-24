@@ -7,25 +7,25 @@ public class TaskDbContext : DbContext
     {
     }
 
-    public DbSet<Task> Tasks { get;set; }
+    public DbSet<ToDoItem> Tasks { get;set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
-            builder.Entity<Task>()
+            builder.Entity<ToDoItem>()
                  .HasData(
-                new Task("Wake Up")
+                new ToDoItem("Wake Up")
                 {
                     Id = 1,
                     Description = "moring asdad",
                     IsCompleted = true
                 },
-                new Task("Answer the Nature")
+                new ToDoItem("Answer the Nature")
                 {
                     Id = 2,
                     Description = "go washroom",
                     IsCompleted = false
                 },
-                 new Task("Take Breakfast")
+                 new ToDoItem("Take Breakfast")
                 {
                     Id = 3,
                     Description = "eat healthy food",

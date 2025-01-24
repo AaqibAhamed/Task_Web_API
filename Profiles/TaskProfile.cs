@@ -5,13 +5,13 @@ public class TaskProfile : Profile
 {
     public TaskProfile()
     {
-        CreateMap<Task,TaskDto>(); //Mapping for Get
+        CreateMap<ToDoItem,TaskDto>(); //Mapping for Get
 
-        CreateMap<TaskCreateDto,Task>(); // Mapping for CreateTaks- POST
+        CreateMap<TaskCreateDto,ToDoItem>(); // Mapping for CreateTaks- POST
 
-        CreateMap<TaskUpdateDto,Task>(); // Mapping for UpdateTask - PUT
+        CreateMap<TaskUpdateDto,ToDoItem>(); // Mapping for UpdateTask - PUT
 
-        CreateMap<Task,TaskUpdateDto>(); // Mapping for PartiallyUpdateTask - Patch
+        CreateMap<ToDoItem,TaskUpdateDto>(); // Mapping for PartiallyUpdateTask - Patch
 
        
     }

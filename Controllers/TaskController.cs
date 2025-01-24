@@ -41,7 +41,7 @@ namespace Task_Web_API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Task>>> GetAllTasks()
+        public async Task<ActionResult<IEnumerable<ToDoItem>>> GetAllTasks()
         {
             var tasks = await _taskRepository.GetAllTasksAsync();
 
@@ -59,7 +59,7 @@ namespace Task_Web_API.Controllers
         /// <param name="id">The Id of the Task to get </param>
         /// <returns> A Task with Details</returns>
         [HttpGet("{id}", Name = "GetTask")]
-        public async Task<ActionResult<Task>> GetTask(int id)
+        public async Task<ActionResult<ToDoItem>> GetTask(int id)
         {
 
             var task = await _taskRepository.GetTaskAsync(id);
@@ -90,7 +90,7 @@ namespace Task_Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var taskToCreate = _mapper.Map<Task>(task);
+            var taskToCreate = _mapper.Map<ToDoItem>(task);
 
             _taskRepository.AddTask(taskToCreate);
 

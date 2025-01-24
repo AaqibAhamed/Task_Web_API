@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class Task
+public class ToDoItem
 {
     [Key]
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,7 +17,7 @@ public class Task
 
     public bool IsCompleted { get; set; }
 
-    public Task(string title)
+    public ToDoItem(string title)
     {
         Title = title;
     }

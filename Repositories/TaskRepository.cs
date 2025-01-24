@@ -9,21 +9,21 @@ public class TaskRepository : ITaskRepository
         _context = context ?? throw new ArgumentNullException(nameof(context));
     }
 
-    public async Task<IEnumerable<Task>> GetAllTasksAsync()
+    public async Task<IEnumerable<ToDoItem>> GetAllTasksAsync()
     {
         return await _context.Tasks.ToListAsync(); // if required can orderby Title
     }
-    public  async Task<Task?> GetTaskAsync(int taskId)
+    public  async Task<ToDoItem?> GetTaskAsync(int taskId)
     {
        return await _context.Tasks.Where(t => t.Id == taskId).FirstOrDefaultAsync();
     }
 
-    public void AddTask(Task task)
+    public void AddTask(ToDoItem task)
     {
         _context.Tasks.Add(task);
     }
 
-    public void DeleteTask(Task task)
+    public void DeleteTask(ToDoItem task)
     {
         _context.Tasks.Remove(task);
     }
@@ -38,13 +38,13 @@ public class TaskRepository : ITaskRepository
        return await _context.SaveChangesAsync() >= 0;
     }
 
-    public async Task<IEnumerable<Task>> GetAllCompletedTasksAsync(bool? IsCompleted)
+    public async Task<IEnumerable<ToDoItem>> GetAllCompletedTasksAsync(bool? IsCompleted)
     {
         return await _context.Tasks.Where(t => t.IsCompleted == true ).ToListAsync();
       
     }
 
-    public async Task<IEnumerable<Task>> GetAllPendingTasksAsync(bool? IsCompleted)
+    public async Task<IEnumerable<ToDoItem>> GetAllPendingTasksAsync(bool? IsCompleted)
     {
          return await _context.Tasks.Where(t => t.IsCompleted == false ).ToListAsync();
     }

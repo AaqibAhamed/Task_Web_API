@@ -2,32 +2,32 @@ using Task_Web_API.Services;
 
 public class TaskService : ITaskService
 {
-    public void AddTask(Task task)
+    public void AddTask(ToDoItem task)
     {
         throw new NotImplementedException();
     }
 
-    public void DeleteTask(Task task)
+    public void DeleteTask(ToDoItem task)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Task>> GetAllCompletedTasksAsync(bool? IsCompleted)
+    public Task<IEnumerable<ToDoItem>> GetAllCompletedTasksAsync(bool? IsCompleted)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Task>> GetAllPendingTasksAsync(bool? IsCompleted)
+    public Task<IEnumerable<ToDoItem>> GetAllPendingTasksAsync(bool? IsCompleted)
     {
         throw new NotImplementedException();
     }
 
-    public Task<IEnumerable<Task>> GetAllTasksAsync()
+    public Task<IEnumerable<ToDoItem>> GetAllTasksAsync()
     {
         throw new NotImplementedException();
     }
 
-    public Task<Task?> GetTaskAsync(int taskId)
+    public Task<ToDoItem?> GetTaskAsync(int taskId)
     {
         throw new NotImplementedException();
     }
