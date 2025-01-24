@@ -7,11 +7,11 @@ public class TaskProfile : Profile
     {
         CreateMap<ToDoItem,ToDoItemDto>(); //Mapping for Get
 
-        CreateMap<TaskCreateDto,ToDoItem>(); // Mapping for CreateTaks- POST
+        CreateMap<ToDoItemCreateDto,ToDoItem>(); // Mapping for CreateTaks- POST
 
-        CreateMap<TaskUpdateDto,ToDoItem>(); // Mapping for UpdateTask - PUT
+        CreateMap<ToDoItemUpdateDto,ToDoItem>(); // Mapping for UpdateTask - PUT
 
-        CreateMap<ToDoItem,TaskUpdateDto>(); // Mapping for PartiallyUpdateTask - Patch
+        CreateMap<ToDoItem,ToDoItemUpdateDto>(); // Mapping for PartiallyUpdateTask - Patch
 
        
     }
