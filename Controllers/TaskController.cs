@@ -48,7 +48,7 @@ namespace Task_Web_API.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<IEnumerable<TaskDto>>(tasks));
+            return Ok(_mapper.Map<IEnumerable<ToDoItemDto>>(tasks));
         }
 
         /// <summary>
@@ -72,7 +72,7 @@ namespace Task_Web_API.Controllers
                 });
             }
 
-            return Ok(_mapper.Map<TaskDto>(task));
+            return Ok(_mapper.Map<ToDoItemDto>(task));
         }
 
         /// <summary>
@@ -81,7 +81,7 @@ namespace Task_Web_API.Controllers
         /// <param name="task"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<TaskDto>> CreateTask(TaskCreateDto task)
+        public async Task<ActionResult<ToDoItemDto>> CreateTask(TaskCreateDto task)
         {
             if (!ModelState.IsValid)
             {
@@ -94,7 +94,7 @@ namespace Task_Web_API.Controllers
 
             await _taskRepository.SaveChangesAsync();
 
-            var createdTaskToReturn = _mapper.Map<TaskDto>(taskToCreate);
+            var createdTaskToReturn = _mapper.Map<ToDoItemDto>(taskToCreate);
 
             return CreatedAtAction(nameof(GetTask), new { id = createdTaskToReturn.Id }, createdTaskToReturn);
         }

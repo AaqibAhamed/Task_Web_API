@@ -5,7 +5,7 @@ public class TaskProfile : Profile
 {
     public TaskProfile()
     {
-        CreateMap<ToDoItem,TaskDto>(); //Mapping for Get
+        CreateMap<ToDoItem,ToDoItemDto>(); //Mapping for Get
 
         CreateMap<TaskCreateDto,ToDoItem>(); // Mapping for CreateTaks- POST
 

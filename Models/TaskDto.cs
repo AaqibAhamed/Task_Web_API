@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 /// <summary>
 /// Task Get Dto
 /// </summary>
-public class TaskDto
+public class ToDoItemDto
 {
     /// <summary>
     ///  The Id of the Task 
