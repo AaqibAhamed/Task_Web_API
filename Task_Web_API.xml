@@ -80,6 +80,18 @@
         <member name="M:Task_Web_API.Migrations.SeedInitialData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
+        <member name="T:Task_Web_API.Migrations.RenameDbSettoToDoItems">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.RenameDbSettoToDoItems.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.RenameDbSettoToDoItems.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:Task_Web_API.Migrations.RenameDbSettoToDoItems.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
         <member name="T:Task_Web_API.Models.TaskCreateDto">
             <summary>
             Task Create Dto
