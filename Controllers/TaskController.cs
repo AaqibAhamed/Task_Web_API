@@ -81,7 +81,7 @@ namespace Task_Web_API.Controllers
         /// <param name="task"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<ToDoItemDto>> CreateTask(TaskCreateDto task)
+        public async Task<ActionResult<ToDoItemDto>> CreateTask(ToDoItemCreateDto task)
         {
             if (!ModelState.IsValid)
             {
@@ -106,7 +106,7 @@ namespace Task_Web_API.Controllers
         /// <param name="taskToUpdate"></param>
         /// <returns></returns>
         [HttpPut("{id}", Name = "UpdateTask")]
-        public async Task<ActionResult> UpdateTask(int id, TaskUpdateDto taskToUpdate)
+        public async Task<ActionResult> UpdateTask(int id, ToDoItemUpdateDto taskToUpdate)
         {
             if (!ModelState.IsValid)
             {
@@ -135,7 +135,7 @@ namespace Task_Web_API.Controllers
         /// <param name="patchDocument"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public async Task<ActionResult> PartiallyUpdateTask(int id, JsonPatchDocument<TaskUpdateDto> patchDocument)
+        public async Task<ActionResult> PartiallyUpdateTask(int id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
         {
             var taskEntity = await _taskRepository.GetTaskAsync(id);
 
@@ -144,7 +144,7 @@ namespace Task_Web_API.Controllers
                 return NotFound();
             }
 
-            var taskToPatch = _mapper.Map<TaskUpdateDto>(taskEntity);
+            var taskToPatch = _mapper.Map<ToDoItemUpdateDto>(taskEntity);
 
             patchDocument.ApplyTo(taskToPatch, ModelState);
 
