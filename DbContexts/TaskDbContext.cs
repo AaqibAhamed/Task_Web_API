@@ -6,7 +6,7 @@ public class TaskDbContext : DbContext
     {
     }
 
-    public DbSet<ToDoItem> Tasks { get;set; }
+    public DbSet<ToDoItem> ToDoItems { get;set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
