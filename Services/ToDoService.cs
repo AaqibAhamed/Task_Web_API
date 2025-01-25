@@ -1,3 +1,5 @@
+using Task_Web_API.Entities;
+
 namespace Task_Web_API.Services
 {
     public class ToDoService : IToDoService
