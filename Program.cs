@@ -189,9 +189,6 @@ app.UseAuthorization();
 
 app.UseCors("NgOrigins");
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
+app.MapControllers();
 
 app.Run();
