@@ -6,7 +6,7 @@ namespace Task_Web_API.Repositories
     {
         Task<IEnumerable<ToDoItem>> GetAllTasksAsync();
 
-        Task<ToDoItem?> GetTaskByIdAsync(Guid taskId);
+        Task<ToDoItem> GetTaskByIdAsync(Guid taskId);
 
         Task<IEnumerable<ToDoItem>> GetAllCompletedTasksAsync(bool? IsCompleted);
 
