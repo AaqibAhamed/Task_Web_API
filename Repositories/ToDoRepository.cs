@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
+using Task_Web_API.Entities;
 
 namespace Task_Web_API.Repositories
 {
     public class ToDoRepository : IToDoRepository
     {
         private readonly TaskDbContext _context;
+        
         public ToDoRepository(TaskDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -12,9 +14,10 @@ namespace Task_Web_API.Repositories
 
         public async Task<IEnumerable<ToDoItem>> GetAllTasksAsync()
         {
-            return await _context.ToDoItems.ToListAsync(); // if required can orderby Title
+            return await _context.ToDoItems.OrderBy(t => t.Title).ToListAsync();  //Add an index on the Title column in the database to improve performance.
+
         }
-        public async Task<ToDoItem?> GetTaskAsync(int taskId)
+        public async Task<ToDoItem?> GetTaskByIdAsync(int taskId)
         {
             return await _context.ToDoItems.Where(t => t.Id == taskId).FirstOrDefaultAsync();
         }
@@ -50,6 +53,10 @@ namespace Task_Web_API.Repositories
             return await _context.ToDoItems.Where(t => t.IsCompleted == false).ToListAsync();
         }
 
+        public void UpdateTask(ToDoItem task)
+        {
+            throw new NotImplementedException();
+        }
 
     }
 

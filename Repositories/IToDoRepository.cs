@@ -1,10 +1,12 @@
+using Task_Web_API.Entities;
+
 namespace Task_Web_API.Repositories
 {
     public interface IToDoRepository
     {
         Task<IEnumerable<ToDoItem>> GetAllTasksAsync();
 
-        Task<ToDoItem?> GetTaskAsync(int taskId);
+        Task<ToDoItem?> GetTaskByIdAsync(int taskId);
 
         Task<IEnumerable<ToDoItem>> GetAllCompletedTasksAsync(bool? IsCompleted);
 
@@ -13,6 +15,8 @@ namespace Task_Web_API.Repositories
         Task<bool> TaskExistsAsync(int taskId);
 
         void AddTask(ToDoItem task);
+
+        void UpdateTask(ToDoItem task);
 
         void DeleteTask(ToDoItem task);
 
