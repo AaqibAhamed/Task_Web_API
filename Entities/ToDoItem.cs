@@ -2,27 +2,32 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public class ToDoItem
+namespace Task_Web_API.Entities
 {
-    [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; set; }
-
-    [Required]
-    [MaxLength(50)]
-    public string Title { get; set; } = string.Empty;
-
-    [MaxLength(200)]
-    public string? Description { get; set; }
-
-    public bool IsCompleted { get; set; }
-
-    public DateTime CreatedAt { get; set; }
-    
-    public DateTime? CompletedAt { get; set; }
-
-    public ToDoItem(string title)
+    public class ToDoItem
     {
-        Title = title;
+        public ToDoItem(string title)
+        {
+            Title = title;
+        }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
+        [Required]
+        [MaxLength(50)]
+        public string Title { get; set; } = string.Empty;
+
+        [MaxLength(200)]
+        public string? Description { get; set; }
+
+        public bool IsCompleted { get; set; }
+
+        public DateTime CreatedAt { get; set; }
+
+        public DateTime? CompletedAt { get; set; }
+
+
     }
 }
