@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Reflection;
+using Task_Web_API.Repositories;
 using Task_Web_API.Services;
 
 Log.Logger = new LoggerConfiguration()
@@ -50,7 +51,7 @@ builder.Services.AddDbContext<TaskDbContext>(DbContextOptions  // Regsitered wit
     => DbContextOptions.UseSqlServer( 
         builder.Configuration["ConnectionStrings:TaskDbContext"]));  
 
-builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+builder.Services.AddScoped<IToDoRepository, ToDoRepository>();
 builder.Services.AddScoped<ITaskService, TaskService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
