@@ -6,7 +6,7 @@ namespace Task_Web_API.Repositories
     public class ToDoRepository : IToDoRepository
     {
         private readonly TaskDbContext _context;
-        
+
         public ToDoRepository(TaskDbContext context)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
@@ -14,12 +14,12 @@ namespace Task_Web_API.Repositories
 
         public async Task<IEnumerable<ToDoItem>> GetAllTasksAsync()
         {
-            return await _context.ToDoItems.OrderBy(t => t.Title).ToListAsync();  //Add an index on the Title column in the database to improve performance.
-
+            return await _context.ToDoItems.OrderBy(t => t.Title).ToListAsync();  //Add an (non-clusterd) index on the Title column in the database to improve performance.
         }
-        public async Task<ToDoItem?> GetTaskByIdAsync(Guid taskId)
+        public async Task<ToDoItem> GetTaskByIdAsync(Guid taskId)
         {
-            return await _context.ToDoItems.Where(t => t.Id == taskId).FirstOrDefaultAsync();
+            var toDoItem = await _context.ToDoItems.FindAsync(taskId) ?? throw new KeyNotFoundException($"Task with id {taskId} not found.");
+            return toDoItem;
         }
 
         public void AddTask(ToDoItem task)
