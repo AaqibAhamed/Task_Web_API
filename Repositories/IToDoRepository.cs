@@ -6,13 +6,13 @@ namespace Task_Web_API.Repositories
     {
         Task<IEnumerable<ToDoItem>> GetAllTasksAsync();
 
-        Task<ToDoItem?> GetTaskByIdAsync(int taskId);
+        Task<ToDoItem?> GetTaskByIdAsync(Guid taskId);
 
         Task<IEnumerable<ToDoItem>> GetAllCompletedTasksAsync(bool? IsCompleted);
 
         Task<IEnumerable<ToDoItem>> GetAllPendingTasksAsync(bool? IsCompleted);
 
-        Task<bool> TaskExistsAsync(int taskId);
+        Task<bool> TaskExistsAsync(Guid taskId);
 
         void AddTask(ToDoItem task);
 

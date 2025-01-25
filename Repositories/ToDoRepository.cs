@@ -17,7 +17,7 @@ namespace Task_Web_API.Repositories
             return await _context.ToDoItems.OrderBy(t => t.Title).ToListAsync();  //Add an index on the Title column in the database to improve performance.
 
         }
-        public async Task<ToDoItem?> GetTaskByIdAsync(int taskId)
+        public async Task<ToDoItem?> GetTaskByIdAsync(Guid taskId)
         {
             return await _context.ToDoItems.Where(t => t.Id == taskId).FirstOrDefaultAsync();
         }
@@ -32,7 +32,7 @@ namespace Task_Web_API.Repositories
             _context.ToDoItems.Remove(task);
         }
 
-        public async Task<bool> TaskExistsAsync(int taskId)
+        public async Task<bool> TaskExistsAsync(Guid taskId)
         {
             return await _context.ToDoItems.AnyAsync(t => t.Id == taskId);
         }

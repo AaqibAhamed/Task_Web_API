@@ -9,11 +9,12 @@ namespace Task_Web_API.Entities
         public ToDoItem(string title)
         {
             Title = title;
+            CreatedAt = DateTime.UtcNow; // default constructor property will override the database default value
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
 
         [Required]
         [MaxLength(50)]
