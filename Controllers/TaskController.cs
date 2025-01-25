@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Task_Web_API.Models;
+using Task_Web_API.Repositories;
 
 namespace Task_Web_API.Controllers
 {
@@ -17,20 +18,20 @@ namespace Task_Web_API.Controllers
     public class TaskController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly ITaskRepository _taskRepository;
+        private readonly IToDoRepository _toDoRepository;
         private readonly ILogger<TaskController> _logger;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="mapper"></param>
-        /// <param name="taskRepository"></param>
+        /// <param name="toDoRepository"></param>
         /// <param name="logger"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public TaskController(IMapper mapper, ITaskRepository taskRepository, ILogger<TaskController> logger)
+        public TaskController(IMapper mapper, IToDoRepository toDoRepository, ILogger<TaskController> logger)
         {
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
+            _toDoRepository = toDoRepository ?? throw new ArgumentNullException(nameof(toDoRepository));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
@@ -41,7 +42,7 @@ namespace Task_Web_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ToDoItem>>> GetAllTasks()
         {
-            var tasks = await _taskRepository.GetAllTasksAsync();
+            var tasks = await _toDoRepository.GetAllTasksAsync();
 
             if (tasks == null)
             {
@@ -60,7 +61,7 @@ namespace Task_Web_API.Controllers
         public async Task<ActionResult<ToDoItem>> GetTask(int id)
         {
 
-            var task = await _taskRepository.GetTaskAsync(id);
+            var task = await _toDoRepository.GetTaskAsync(id);
 
             if (task == null)
             {
@@ -90,9 +91,9 @@ namespace Task_Web_API.Controllers
 
             var taskToCreate = _mapper.Map<ToDoItem>(task);
 
-            _taskRepository.AddTask(taskToCreate);
+            _toDoRepository.AddTask(taskToCreate);
 
-            await _taskRepository.SaveChangesAsync();
+            await _toDoRepository.SaveChangesAsync();
 
             var createdTaskToReturn = _mapper.Map<ToDoItemDto>(taskToCreate);
 
@@ -113,7 +114,7 @@ namespace Task_Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var taskEntity = await _taskRepository.GetTaskAsync(id);
+            var taskEntity = await _toDoRepository.GetTaskAsync(id);
 
             if (taskEntity == null)
             {
@@ -122,7 +123,7 @@ namespace Task_Web_API.Controllers
 
             _mapper.Map(taskToUpdate, taskEntity);
 
-            await _taskRepository.SaveChangesAsync();
+            await _toDoRepository.SaveChangesAsync();
 
             return Ok(taskEntity); // return NoContent(); not looks nice
 
@@ -137,7 +138,7 @@ namespace Task_Web_API.Controllers
         [HttpPatch("{id}")]
         public async Task<ActionResult> PartiallyUpdateTask(int id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
         {
-            var taskEntity = await _taskRepository.GetTaskAsync(id);
+            var taskEntity = await _toDoRepository.GetTaskAsync(id);
 
             if (taskEntity == null)
             {
@@ -160,7 +161,7 @@ namespace Task_Web_API.Controllers
 
             _mapper.Map(taskToPatch, taskEntity);
 
-            await _taskRepository.SaveChangesAsync();
+            await _toDoRepository.SaveChangesAsync();
 
             return Ok(taskEntity); // NoContent();
         }
@@ -177,16 +178,16 @@ namespace Task_Web_API.Controllers
               {
                   return NotFound();
               } */
-            var taskEntity = await _taskRepository.GetTaskAsync(id);
+            var taskEntity = await _toDoRepository.GetTaskAsync(id);
 
             if (taskEntity == null)
             {
                 return NotFound();
             }
 
-            _taskRepository.DeleteTask(taskEntity);
+            _toDoRepository.DeleteTask(taskEntity);
 
-            await _taskRepository.SaveChangesAsync();
+            await _toDoRepository.SaveChangesAsync();
 
             return NoContent();
         }
