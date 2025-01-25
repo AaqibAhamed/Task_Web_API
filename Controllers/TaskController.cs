@@ -59,7 +59,7 @@ namespace Task_Web_API.Controllers
         /// <param name="id">The Id of the Task to get </param>
         /// <returns> A Task with Details</returns>
         [HttpGet("{id}", Name = "GetTask")]
-        public async Task<ActionResult<ToDoItem>> GetTask(int id)
+        public async Task<ActionResult<ToDoItem>> GetTask(Guid id)
         {
 
             var task = await _toDoRepository.GetTaskByIdAsync(id);
@@ -108,7 +108,7 @@ namespace Task_Web_API.Controllers
         /// <param name="taskToUpdate"></param>
         /// <returns></returns>
         [HttpPut("{id}", Name = "UpdateTask")]
-        public async Task<ActionResult> UpdateTask(int id, ToDoItemUpdateDto taskToUpdate)
+        public async Task<ActionResult> UpdateTask(Guid id, ToDoItemUpdateDto taskToUpdate)
         {
             if (!ModelState.IsValid)
             {
@@ -137,7 +137,7 @@ namespace Task_Web_API.Controllers
         /// <param name="patchDocument"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public async Task<ActionResult> PartiallyUpdateTask(int id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
+        public async Task<ActionResult> PartiallyUpdateTask(Guid id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
         {
             var taskEntity = await _toDoRepository.GetTaskByIdAsync(id);
 
@@ -173,7 +173,7 @@ namespace Task_Web_API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTask(int id)
+        public async Task<ActionResult> DeleteTask(Guid id)
         {
             /*   if(! await _taskRepository.TaskExistsAsync(id))
               {
