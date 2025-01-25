@@ -1,6 +1,6 @@
 namespace Task_Web_API.Services
 {
-    public interface ITaskService
+    public interface IToDoService
     {
         Task<IEnumerable<ToDoItem>> GetAllTasksAsync();
 
