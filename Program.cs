@@ -52,7 +52,7 @@ builder.Services.AddDbContext<TaskDbContext>(DbContextOptions  // Regsitered wit
         builder.Configuration["ConnectionStrings:TaskDbContext"]));  
 
 builder.Services.AddScoped<IToDoRepository, ToDoRepository>();
-builder.Services.AddScoped<ITaskService, TaskService>();
+builder.Services.AddScoped<IToDoService, ToDoService>();
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
