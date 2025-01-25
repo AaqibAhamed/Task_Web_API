@@ -3,6 +3,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Task_Web_API.Entities;
 using Task_Web_API.Models;
 using Task_Web_API.Repositories;
 
@@ -61,7 +62,7 @@ namespace Task_Web_API.Controllers
         public async Task<ActionResult<ToDoItem>> GetTask(int id)
         {
 
-            var task = await _toDoRepository.GetTaskAsync(id);
+            var task = await _toDoRepository.GetTaskByIdAsync(id);
 
             if (task == null)
             {
@@ -114,7 +115,7 @@ namespace Task_Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var taskEntity = await _toDoRepository.GetTaskAsync(id);
+            var taskEntity = await _toDoRepository.GetTaskByIdAsync(id);
 
             if (taskEntity == null)
             {
@@ -138,7 +139,7 @@ namespace Task_Web_API.Controllers
         [HttpPatch("{id}")]
         public async Task<ActionResult> PartiallyUpdateTask(int id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
         {
-            var taskEntity = await _toDoRepository.GetTaskAsync(id);
+            var taskEntity = await _toDoRepository.GetTaskByIdAsync(id);
 
             if (taskEntity == null)
             {
@@ -178,7 +179,7 @@ namespace Task_Web_API.Controllers
               {
                   return NotFound();
               } */
-            var taskEntity = await _toDoRepository.GetTaskAsync(id);
+            var taskEntity = await _toDoRepository.GetTaskByIdAsync(id);
 
             if (taskEntity == null)
             {
