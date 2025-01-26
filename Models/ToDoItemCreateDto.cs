@@ -25,5 +25,9 @@ namespace Task_Web_API.Models
         /// </summary>
         public bool IsCompleted { get; set; }
 
+        public DateTime CreatedAt { get; set; }
+    
+        public DateTime? CompletedAt { get; set; }
+
     }
 }
