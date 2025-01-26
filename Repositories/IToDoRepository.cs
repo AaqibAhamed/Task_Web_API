@@ -6,11 +6,11 @@ namespace Task_Web_API.Repositories
     {
         Task<IEnumerable<ToDoItem>> GetAllTasksAsync();
 
-        Task<ToDoItem> FindTaskByIdAsync(Guid taskId);
+        Task<ToDoItem?> FindTaskByIdAsync(Guid taskId);
 
         Task<Guid> AddTaskAsync(ToDoItem toDoItem);
 
-        Task<ToDoItem> UpdateTaskAsync(Guid taskId, ToDoItem toDoItem);
+        Task<ToDoItem?> UpdateTaskAsync(Guid taskId,ToDoItem toDoItem);
 
         Task<bool> RemoveTaskAsync(Guid id);
 
