@@ -6,6 +6,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Reflection;
+using Task_Web_API.Middlewares;
 using Task_Web_API.Repositories;
 using Task_Web_API.Services;
 
@@ -178,6 +179,8 @@ if (app.Environment.IsDevelopment())
         }
     });
 }
+
+app.UseMiddleware<GlobalExceptionHandlerMiddleware>();
 
 app.UseHttpsRedirection();
 
