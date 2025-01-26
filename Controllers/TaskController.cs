@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Task_Web_API.Entities;
 using Task_Web_API.Models;
-using Task_Web_API.Repositories;
+using Task_Web_API.Services;
 
 namespace Task_Web_API.Controllers
 {
@@ -18,22 +18,16 @@ namespace Task_Web_API.Controllers
 
     public class TaskController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IToDoRepository _toDoRepository;
-        private readonly ILogger<TaskController> _logger;
+        private readonly IToDoService _toDoService;
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="mapper"></param>
-        /// <param name="toDoRepository"></param>
-        /// <param name="logger"></param>
+        /// <param name="toDoService"></param>
         /// <exception cref="ArgumentNullException"></exception>
-        public TaskController(IMapper mapper, IToDoRepository toDoRepository, ILogger<TaskController> logger)
+        public TaskController(IToDoService toDoService)
         {
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-            _toDoRepository = toDoRepository ?? throw new ArgumentNullException(nameof(toDoRepository));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _toDoService = toDoService ?? throw new ArgumentNullException(nameof(toDoService));
         }
 
         /// <summary>
@@ -43,14 +37,9 @@ namespace Task_Web_API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ToDoItem>>> GetAllTasks()
         {
-            var tasks = await _toDoRepository.GetAllTasksAsync();
+            var response = await _toDoService.GetAllTasksAsync();
 
-            if (tasks == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(_mapper.Map<IEnumerable<ToDoItemDto>>(tasks));
+            return Ok(response);
         }
 
         /// <summary>
@@ -61,8 +50,7 @@ namespace Task_Web_API.Controllers
         [HttpGet("{id}", Name = "GetTask")]
         public async Task<ActionResult<ToDoItem>> GetTask(Guid id)
         {
-
-            var task = await _toDoRepository.GetTaskByIdAsync(id);
+            var task = await _toDoService.GetTaskByIdAsync(id);
 
             if (task == null)
             {
@@ -74,7 +62,13 @@ namespace Task_Web_API.Controllers
                 });
             }
 
-            return Ok(_mapper.Map<ToDoItemDto>(task));
+            return Ok(new
+            {
+                StatusCode = 200,
+                Message = "Task retrieved successfully",
+                Data = task
+
+            });
         }
 
         /// <summary>
@@ -82,23 +76,22 @@ namespace Task_Web_API.Controllers
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        [HttpPost]
-        public async Task<ActionResult<ToDoItemDto>> CreateTask(ToDoItemCreateDto task)
+        [HttpPost("Create")]
+        public async Task<IActionResult> CreateTask(ToDoItemCreateDto task)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var taskToCreate = _mapper.Map<ToDoItem>(task);
+            var responseData = await _toDoService.CreateTaskAsync(task);
 
-            _toDoRepository.AddTask(taskToCreate);
+            if (!responseData.Success)
+            {
+                return BadRequest(responseData);
+            }
 
-            await _toDoRepository.SaveChangesAsync();
-
-            var createdTaskToReturn = _mapper.Map<ToDoItemDto>(taskToCreate);
-
-            return CreatedAtAction(nameof(GetTask), new { id = createdTaskToReturn.Id }, createdTaskToReturn);
+            return Ok(responseData);
         }
 
         /// <summary>
@@ -108,25 +101,21 @@ namespace Task_Web_API.Controllers
         /// <param name="taskToUpdate"></param>
         /// <returns></returns>
         [HttpPut("{id}", Name = "UpdateTask")]
-        public async Task<ActionResult> UpdateTask(Guid id, ToDoItemUpdateDto taskToUpdate)
+        public async Task<IActionResult> UpdateTask(Guid id, ToDoItemUpdateDto taskToUpdate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var taskEntity = await _toDoRepository.GetTaskByIdAsync(id);
+            var updatedTask = await _toDoService.EditTaskAsync(id, taskToUpdate);
 
-            if (taskEntity == null)
+            if (!updatedTask.Success)
             {
-                return NotFound();
+                return BadRequest(updatedTask);
             }
 
-            _mapper.Map(taskToUpdate, taskEntity);
-
-            await _toDoRepository.SaveChangesAsync();
-
-            return Ok(taskEntity); // return NoContent(); not looks nice
+            return Ok(updatedTask);
 
         }
 
@@ -137,34 +126,9 @@ namespace Task_Web_API.Controllers
         /// <param name="patchDocument"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public async Task<ActionResult> PartiallyUpdateTask(Guid id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
+        public ActionResult PartiallyUpdateTask(Guid id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
         {
-            var taskEntity = await _toDoRepository.GetTaskByIdAsync(id);
-
-            if (taskEntity == null)
-            {
-                return NotFound();
-            }
-
-            var taskToPatch = _mapper.Map<ToDoItemUpdateDto>(taskEntity);
-
-            patchDocument.ApplyTo(taskToPatch, ModelState);
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (!TryValidateModel(taskToPatch))
-            {
-                return BadRequest(ModelState);
-            }
-
-            _mapper.Map(taskToPatch, taskEntity);
-
-            await _toDoRepository.SaveChangesAsync();
-
-            return Ok(taskEntity); // NoContent();
+            throw new NotImplementedException();
         }
 
         /// <summary>
@@ -173,26 +137,15 @@ namespace Task_Web_API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpDelete("{id}")]
-        public async Task<ActionResult> DeleteTask(Guid id)
+        public async Task<IActionResult> DeleteTask(Guid id)
         {
-            /*   if(! await _taskRepository.TaskExistsAsync(id))
-              {
-                  return NotFound();
-              } */
-            var taskEntity = await _toDoRepository.GetTaskByIdAsync(id);
+            var response = await _toDoService.DeleteTaskAsync(id);
 
-            if (taskEntity == null)
-            {
-                return NotFound();
-            }
+            if (!response.Success)
+                return NotFound(response); // Returns 404 if task not found
 
-            _toDoRepository.DeleteTask(taskEntity);
+            return Ok(response); // Returns 200 with success message
 
-            await _toDoRepository.SaveChangesAsync();
-
-            return NoContent();
         }
-
-
     }
 }
