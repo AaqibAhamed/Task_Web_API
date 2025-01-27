@@ -1,4 +1,5 @@
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.EntityFrameworkCore;
 using Task_Web_API.Entities;
 
@@ -29,7 +30,7 @@ namespace Task_Web_API.Repositories
         {
             await _taskDbContext.ToDoItems.AddAsync(toDoItem);
             await _taskDbContext.SaveChangesAsync();
-            return toDoItem.Id; 
+            return toDoItem.Id;
         }
 
         public async Task<ToDoItem?> UpdateTaskAsync(Guid taskId, ToDoItem taskToUpdate)
@@ -38,11 +39,24 @@ namespace Task_Web_API.Repositories
 
             _mapper.Map(taskToUpdate, existingTask);
 
-            // existingTask.Title = toDoItem.Title;
-            // existingTask.Description = toDoItem.Description;
-            // existingTask.IsCompleted = toDoItem.IsCompleted;
-            // existingTask.CreatedAt = DateTime.UtcNow; //toDoItem.CreatedAt;
-            // existingTask.CompletedAt = toDoItem.CompletedAt;
+
+            // // Manually update the properties
+            // existingTask.Title = taskToUpdate.Title;
+            // existingTask.Description = taskToUpdate.Description;
+            // existingTask.IsCompleted = taskToUpdate.IsCompleted;
+            // existingTask.CreatedAt = DateTime.UtcNow; //taskToUpdate.CreatedAt;
+            // existingTask.CompletedAt = taskToUpdate.CompletedAt;
+
+            await _taskDbContext.SaveChangesAsync();
+
+            return existingTask;
+        }
+
+        public async Task<ToDoItem?> ApplyPatchTaskAsync(Guid taskId, JsonPatchDocument<ToDoItem?> patchDocument)
+        {
+            var existingTask = await FindTaskByIdAsync(taskId);
+
+            patchDocument.ApplyTo(existingTask);
 
             await _taskDbContext.SaveChangesAsync();
 
