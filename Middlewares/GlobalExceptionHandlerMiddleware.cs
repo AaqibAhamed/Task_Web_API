@@ -1,4 +1,5 @@
 using System.Net;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Task_Web_API.Middlewares
 {
@@ -13,7 +14,7 @@ namespace Task_Web_API.Middlewares
             _logger = logger;
         }
 
-        public async Task Invoke(HttpContext context)
+        public async Task Invoke(HttpContext context,[FromServices] IHostEnvironment hostEnvironment)
         {
             try
             {
@@ -22,11 +23,11 @@ namespace Task_Web_API.Middlewares
             catch (Exception ex)
             {
                 _logger.LogError(ex, "An unexpected error occurred.");
-                await HandleExceptionAsync(context, ex);
+                await HandleExceptionAsync(context, ex, hostEnvironment);
             }
         }
 
-        private static Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private static Task HandleExceptionAsync(HttpContext context, Exception ex, [FromServices] IHostEnvironment hostEnvironment)
         {
             context.Response.ContentType = "application/json";
             context.Response.StatusCode = ex switch
@@ -38,8 +39,8 @@ namespace Task_Web_API.Middlewares
             var response = new ResponseDto
             {
                 Success = false,
-                Message = ex == null ? "An unexpected error occurred. Please try again later." : ex.Message,
-                Data = ex?.StackTrace
+                Message = ex?.Message ?? "An unexpected error occurred. Please try again later.",
+                Data = hostEnvironment.IsDevelopment() ? ex?.InnerException?.StackTrace ?? ex?.StackTrace : "Contact Support Team !"
             };
 
             return context.Response.WriteAsJsonAsync(response);
