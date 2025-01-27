@@ -88,7 +88,7 @@ namespace Task_Web_API.Controllers
 
             if (!responseData.Success)
             {
-                return BadRequest(responseData);
+                return NotFound(responseData);
             }
 
             return Ok(responseData);
@@ -108,14 +108,14 @@ namespace Task_Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var updatedTask = await _toDoService.EditTaskAsync(id, taskToUpdate);
+            var updatedTaskResponse = await _toDoService.EditTaskAsync(id, taskToUpdate);
 
-            if (!updatedTask.Success)
+            if (!updatedTaskResponse.Success)
             {
-                return BadRequest(updatedTask);
+                return BadRequest(updatedTaskResponse);  //NotFound  will be added in the future
             }
 
-            return Ok(updatedTask);
+            return Ok(updatedTaskResponse);
 
         }
 
@@ -126,9 +126,32 @@ namespace Task_Web_API.Controllers
         /// <param name="patchDocument"></param>
         /// <returns></returns>
         [HttpPatch("{id}")]
-        public ActionResult PartiallyUpdateTask(Guid id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
+        public async Task<IActionResult> PartiallyUpdateTask(Guid id, JsonPatchDocument<ToDoItemUpdateDto?> patchDocument)
         {
-            throw new NotImplementedException();
+            if (patchDocument == null)
+            {
+                return BadRequest(new ResponseDto
+                {
+                    Success = false,
+                    Message = "Patch document is empty",
+                    Data = null
+                });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var patchResponse = await _toDoService.PatchTaskAsync(id, patchDocument);
+
+
+            if (!patchResponse.Success)
+            {
+                return NotFound(patchResponse);
+            }
+
+            return Ok(patchResponse);
         }
 
         /// <summary>
