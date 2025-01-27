@@ -21,7 +21,7 @@
             <summary>
             Get a Task by Id
             </summary>
-            <param name="id">The Id of the Task to get </param>
+            <param name="taskId">The Id of the Task to get </param>
             <returns> A Task with Details</returns>
         </member>
         <member name="M:Task_Web_API.Controllers.TaskController.CreateTask(Task_Web_API.Models.ToDoItemCreateDto)">
@@ -35,7 +35,7 @@
             <summary>
             Update a Task
             </summary>
-            <param name="id"></param>
+            <param name="taskId"></param>
             <param name="taskToUpdate"></param>
             <returns></returns>
         </member>
@@ -43,7 +43,7 @@
             <summary>
             Partially Update a Task with patchDocument
             </summary>
-            <param name="id"></param>
+            <param name="taskId"></param>
             <param name="patchDocument"></param>
             <returns></returns>
         </member>
@@ -51,7 +51,7 @@
             <summary>
             Delete Task
             </summary>
-            <param name="id"></param>
+            <param name="taskId"></param>
             <returns></returns>
         </member>
         <member name="T:Task_Web_API.Migrations.InitialMigrationV1">
