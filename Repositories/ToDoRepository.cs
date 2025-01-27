@@ -9,12 +9,9 @@ namespace Task_Web_API.Repositories
     {
         private readonly TaskDbContext _taskDbContext;
 
-        private readonly IMapper _mapper;
-
-        public ToDoRepository(TaskDbContext taskDbContext, IMapper mapper)
+        public ToDoRepository(TaskDbContext taskDbContext)
         {
             _taskDbContext = taskDbContext ?? throw new ArgumentNullException(nameof(taskDbContext));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         public async Task<IEnumerable<ToDoItem>> GetAllTasksAsync()
@@ -33,19 +30,18 @@ namespace Task_Web_API.Repositories
             return toDoItem.Id;
         }
 
-        public async Task<ToDoItem?> UpdateTaskAsync(Guid taskId, ToDoItem taskToUpdate)
+        public async Task<ToDoItem> UpdateTaskAsync(Guid taskId, ToDoItem taskToUpdate)
         {
             var existingTask = await FindTaskByIdAsync(taskId);
 
-            _mapper.Map(taskToUpdate, existingTask);
-
+            //_mapper.Map(existingTask, taskToUpdate);
 
             // // Manually update the properties
-            // existingTask.Title = taskToUpdate.Title;
-            // existingTask.Description = taskToUpdate.Description;
-            // existingTask.IsCompleted = taskToUpdate.IsCompleted;
-            // existingTask.CreatedAt = DateTime.UtcNow; //taskToUpdate.CreatedAt;
-            // existingTask.CompletedAt = taskToUpdate.CompletedAt;
+            existingTask.Title = taskToUpdate.Title;
+            existingTask.Description = taskToUpdate.Description;
+            existingTask.IsCompleted = taskToUpdate.IsCompleted;
+            existingTask.CreatedAt = DateTime.UtcNow; //taskToUpdate.CreatedAt;
+            existingTask.CompletedAt = taskToUpdate.CompletedAt;
 
             await _taskDbContext.SaveChangesAsync();
 
