@@ -100,6 +100,22 @@ namespace Task_Web_API.Repositories
         }
 
 
+        // public async Task<ToDoItem?> PatchAsyncUsingMapper(Guid taskId, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
+        // {
+        //     var existingTask = await FindTaskByIdAsync(taskId);
+
+        //     // Map the existing entity to the DTO
+        //     var toDoItemUpdateDto = _mapper.Map<ToDoItemUpdateDto>(existingTask);
+
+        //     // Apply the patch to the DTO
+        //     patchDocument.ApplyTo(toDoItemUpdateDto);
+
+        //     await _taskDbContext.SaveChangesAsync();
+
+        //     return existingTask;
+        // }
+
+
     }
 
 }
