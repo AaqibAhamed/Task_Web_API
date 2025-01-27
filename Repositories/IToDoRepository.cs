@@ -11,7 +11,7 @@ namespace Task_Web_API.Repositories
 
         Task<Guid> AddTaskAsync(ToDoItem toDoItem);
 
-        Task<ToDoItem?> UpdateTaskAsync(Guid taskId, ToDoItem toDoItem);
+        Task<ToDoItem> UpdateTaskAsync(Guid taskId, ToDoItem toDoItem);
 
         Task<ToDoItem?> ApplyPatchTaskAsync(Guid taskId, JsonPatchDocument<ToDoItem?> patchDocument);
 
