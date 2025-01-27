@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.JsonPatch;
 using Task_Web_API.Entities;
 
 namespace Task_Web_API.Repositories
@@ -10,7 +11,9 @@ namespace Task_Web_API.Repositories
 
         Task<Guid> AddTaskAsync(ToDoItem toDoItem);
 
-        Task<ToDoItem?> UpdateTaskAsync(Guid taskId,ToDoItem toDoItem);
+        Task<ToDoItem?> UpdateTaskAsync(Guid taskId, ToDoItem toDoItem);
+
+        Task<ToDoItem?> ApplyPatchTaskAsync(Guid taskId, JsonPatchDocument<ToDoItem?> patchDocument);
 
         Task<bool> RemoveTaskAsync(Guid id);
 
