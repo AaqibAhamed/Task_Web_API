@@ -10,7 +10,7 @@ namespace Task_Web_API.Services
 
         Task<ToDoItemDto> GetTaskByIdAsync(Guid taskId);
 
-        Task<ResponseDto> CreateTaskAsync(ToDoItemCreateDto toDoItemCreateDto );
+        Task<ResponseDto> CreateTaskAsync(ToDoItemCreateDto toDoItemCreateDto);
 
         Task<ResponseDto> EditTaskAsync(Guid taskId, ToDoItemUpdateDto toDoItemUpdateDto);
 
@@ -25,6 +25,8 @@ namespace Task_Web_API.Services
         Task<bool> TaskExistsAsync(Guid taskId);
 
         Task<bool> SaveChangesAsync();
+
+       // Task<ResponseDto> PatchTaskAsyncMapper(Guid id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument);
 
     }
 }

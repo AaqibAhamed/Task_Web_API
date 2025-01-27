@@ -207,6 +207,27 @@ namespace Task_Web_API.Services
             return _toDoRepository.TaskExistsAsync(taskId);
         }
 
+        // public async Task<ResponseDto> PatchTaskAsyncMapper(Guid id, JsonPatchDocument<ToDoItemUpdateDto> patchDocument)
+        // {
+        //     var updatedTask = await _toDoRepository.PatchAsyncUsingMapper(id, patchDocument);
+        //     if (updatedTask == null)
+        //     {
+        //         return new ResponseDto
+        //         {
+        //             Success = false,
+        //             Message = $"Task with id {id} not found."
+        //         };
+        //     }
+
+        //     return new ResponseDto
+        //     {
+        //         Success = true,
+        //         Message = "Task updated successfully.",
+        //         Data = _mapper.Map<ToDoItemDto>(updatedTask)
+        //     };
+        // }
+
+
         // public async Task<ResponseDto> CreateTaskAsync(ToDoItemCreateDto toDoItemCreateDto)
         // {
         //     ToDoItem toDoItemEntity = _mapper.Map<ToDoItem>(toDoItemCreateDto);
