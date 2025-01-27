@@ -17,7 +17,6 @@ namespace Task_Web_API.Middlewares
         {
             try
             {
-                await context.Response.WriteAsync("Middleware Executed!\n");
                 await _next(context);
             }
             catch (Exception ex)
