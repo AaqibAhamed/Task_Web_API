@@ -17,6 +17,19 @@ Log.Logger = new LoggerConfiguration()
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
+    policy =>
+    {
+        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
+    }));
+
+builder.Services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+});
+
+builder.Services.AddControllers().AddNewtonsoftJson();
+
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
 if (environment == Environments.Development)
@@ -44,7 +57,6 @@ else
 }).AddNewtonsoftJson()
 .AddXmlDataContractSerializerFormatters();  */
 
-builder.Services.AddControllers().AddNewtonsoftJson();
 
 builder.Services.AddProblemDetails(); // descriptive error details
 
@@ -144,16 +156,7 @@ builder.Services.AddSwaggerGen(setupAction =>
 
 });
 
-builder.Services.AddCors(options => options.AddPolicy(name: "NgOrigins",
-    policy =>
-    {
-        policy.WithOrigins("http://localhost:4200").AllowAnyMethod().AllowAnyHeader();
-    }));
 
-builder.Services.Configure<ForwardedHeadersOptions>(options =>
-{
-    options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
-});
 
 var app = builder.Build();
 
@@ -186,11 +189,13 @@ app.UseHttpsRedirection();
 
 app.UseRouting();
 
+app.UseCors("NgOrigins");
+
+app.UseForwardedHeaders();
+
 app.UseAuthentication();
 
 app.UseAuthorization();
-
-app.UseCors("NgOrigins");
 
 app.MapControllers();
 
