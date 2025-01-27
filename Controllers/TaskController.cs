@@ -34,7 +34,7 @@ namespace Task_Web_API.Controllers
         /// Get All Tasks
         /// </summary>
         /// <returns></returns>
-        [HttpGet]
+        [HttpGet("getAllTasks")]
         public async Task<ActionResult<IEnumerable<ToDoItem>>> GetAllTasks()
         {
             var response = await _toDoService.GetAllTasksAsync();
@@ -45,12 +45,12 @@ namespace Task_Web_API.Controllers
         /// <summary>
         /// Get a Task by Id
         /// </summary>
-        /// <param name="id">The Id of the Task to get </param>
+        /// <param name="taskId">The Id of the Task to get </param>
         /// <returns> A Task with Details</returns>
-        [HttpGet("{id}", Name = "GetTask")]
-        public async Task<ActionResult<ToDoItem>> GetTask(Guid id)
+        [HttpGet("getTask")]
+        public async Task<ActionResult<ToDoItem>> GetTask(Guid taskId)
         {
-            var task = await _toDoService.GetTaskByIdAsync(id);
+            var task = await _toDoService.GetTaskByIdAsync(taskId);
 
             if (task == null)
             {
@@ -76,7 +76,7 @@ namespace Task_Web_API.Controllers
         /// </summary>
         /// <param name="task"></param>
         /// <returns></returns>
-        [HttpPost("Create")]
+        [HttpPost("createTask")]
         public async Task<IActionResult> CreateTask(ToDoItemCreateDto task)
         {
             if (!ModelState.IsValid)
@@ -97,18 +97,18 @@ namespace Task_Web_API.Controllers
         /// <summary>
         /// Update a Task
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="taskId"></param>
         /// <param name="taskToUpdate"></param>
         /// <returns></returns>
-        [HttpPut("{id}", Name = "UpdateTask")]
-        public async Task<IActionResult> UpdateTask(Guid id, ToDoItemUpdateDto taskToUpdate)
+        [HttpPut("updateTask")]
+        public async Task<IActionResult> UpdateTask(Guid taskId, ToDoItemUpdateDto taskToUpdate)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var updatedTaskResponse = await _toDoService.EditTaskAsync(id, taskToUpdate);
+            var updatedTaskResponse = await _toDoService.EditTaskAsync(taskId, taskToUpdate);
 
             if (!updatedTaskResponse.Success)
             {
@@ -122,11 +122,11 @@ namespace Task_Web_API.Controllers
         /// <summary>
         /// Partially Update a Task with patchDocument
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="taskId"></param>
         /// <param name="patchDocument"></param>
         /// <returns></returns>
-        [HttpPatch("{id}")]
-        public async Task<IActionResult> PartiallyUpdateTask(Guid id, JsonPatchDocument<ToDoItemUpdateDto?> patchDocument)
+        [HttpPatch("partiallyUpdateTask")]
+        public async Task<IActionResult> PartiallyUpdateTask(Guid taskId, JsonPatchDocument<ToDoItemUpdateDto?> patchDocument)
         {
             if (patchDocument == null)
             {
@@ -143,7 +143,7 @@ namespace Task_Web_API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var patchResponse = await _toDoService.PatchTaskAsync(id, patchDocument);
+            var patchResponse = await _toDoService.PatchTaskAsync(taskId, patchDocument);
 
 
             if (!patchResponse.Success)
@@ -157,12 +157,12 @@ namespace Task_Web_API.Controllers
         /// <summary>
         /// Delete Task
         /// </summary>
-        /// <param name="id"></param>
+        /// <param name="taskId"></param>
         /// <returns></returns>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteTask(Guid id)
+        [HttpDelete("deleteTask")]
+        public async Task<IActionResult> DeleteTask(Guid taskId)
         {
-            var response = await _toDoService.DeleteTaskAsync(id);
+            var response = await _toDoService.DeleteTaskAsync(taskId);
 
             if (!response.Success)
                 return NotFound(response); // Returns 404 if task not found
