@@ -54,64 +54,16 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:Task_Web_API.Migrations.InitialMigration">
+        <member name="T:Task_Web_API.Migrations.InitialMigrationV1">
             <inheritdoc />
         </member>
-        <member name="M:Task_Web_API.Migrations.InitialMigration.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:Task_Web_API.Migrations.InitialMigrationV1.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:Task_Web_API.Migrations.InitialMigration.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+        <member name="M:Task_Web_API.Migrations.InitialMigrationV1.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:Task_Web_API.Migrations.InitialMigration.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:Task_Web_API.Migrations.SeedInitialData">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.SeedInitialData.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.SeedInitialData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.SeedInitialData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:Task_Web_API.Migrations.RenameDbSettoToDoItems">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.RenameDbSettoToDoItems.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.RenameDbSettoToDoItems.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.RenameDbSettoToDoItems.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:Task_Web_API.Migrations.AddIndexAndSeedData">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.AddIndexAndSeedData.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.AddIndexAndSeedData.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.AddIndexAndSeedData.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="T:Task_Web_API.Migrations.UpdateEntities">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.UpdateEntities.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.UpdateEntities.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
-            <inheritdoc />
-        </member>
-        <member name="M:Task_Web_API.Migrations.UpdateEntities.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+        <member name="M:Task_Web_API.Migrations.InitialMigrationV1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
         <member name="T:Task_Web_API.Models.ToDoItemCreateDto">
