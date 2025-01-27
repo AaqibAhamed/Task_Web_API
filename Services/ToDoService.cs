@@ -1,4 +1,6 @@
 using AutoMapper;
+using Microsoft.AspNetCore.JsonPatch;
+using Microsoft.AspNetCore.JsonPatch.Operations;
 using Task_Web_API.Entities;
 using Task_Web_API.Middlewares;
 using Task_Web_API.Models;
@@ -87,7 +89,6 @@ namespace Task_Web_API.Services
             }
             catch (Exception ex)
             {
-                // Log the exception (ex) if necessary
                 _logger.LogError(ex, "Error occurred while creating a Task");
 
                 return new ResponseDto
@@ -100,10 +101,10 @@ namespace Task_Web_API.Services
 
         public async Task<ResponseDto> EditTaskAsync(Guid taskId, ToDoItemUpdateDto toDoItemUpdateDto)
         {
-            ToDoItem taskToUpdate = _mapper.Map<ToDoItem>(toDoItemUpdateDto);
-
             try
             {
+                var taskToUpdate = _mapper.Map<ToDoItem>(toDoItemUpdateDto);
+
                 var updatedTask = await _toDoRepository.UpdateTaskAsync(taskId, taskToUpdate) ?? throw new TaskNotFoundException(taskId);
 
                 return new ResponseDto
@@ -116,7 +117,6 @@ namespace Task_Web_API.Services
             }
             catch (Exception ex)
             {
-                // Log the exception (ex) if necessary
                 _logger.LogError(ex, "Error occurred while updating a Task");
 
                 return new ResponseDto
@@ -126,6 +126,45 @@ namespace Task_Web_API.Services
                 };
 
             }
+        }
+
+        public async Task<ResponseDto> PatchTaskAsync(Guid taskId, JsonPatchDocument<ToDoItemUpdateDto?> patchDocument)
+        {
+            try
+            {
+                var taskPatch = new JsonPatchDocument<ToDoItem?>();
+
+                foreach (var operation in patchDocument.Operations)
+                {
+                    taskPatch.Operations.Add(new Operation<ToDoItem?>(
+                        operation.op,
+                        operation.path,
+                        operation.from,
+                        operation.value
+                    ));
+                }
+
+                var patchedTask = await _toDoRepository.ApplyPatchTaskAsync(taskId, taskPatch) ?? throw new TaskNotFoundException(taskId);
+
+                return new ResponseDto
+                {
+                    Success = true,
+                    Message = "Task patched successfully",
+                    Data = _mapper.Map<ToDoItemDto>(patchedTask)  //patchedTask
+                };
+            }
+            catch (Exception ex)
+            {
+
+                _logger.LogError(ex, "Error occurred while patching a Task");
+
+                return new ResponseDto
+                {
+                    Success = false,
+                    Message = "An error occurred while processing your patch request."
+                };
+            }
+
         }
 
         public async Task<ResponseDto> DeleteTaskAsync(Guid id)
@@ -168,35 +207,6 @@ namespace Task_Web_API.Services
             return _toDoRepository.TaskExistsAsync(taskId);
         }
 
-        // var taskEntity = await _toDoService.GetTaskByIdAsync(id);
-
-        //     if (taskEntity == null)
-        //     {
-        //         return NotFound();
-        //     }
-
-        //     var taskToPatch = _mapper.Map<ToDoItemUpdateDto>(taskEntity);
-
-        //     patchDocument.ApplyTo(taskToPatch, ModelState);
-
-        //     if (!ModelState.IsValid)
-        //     {
-        //         return BadRequest(ModelState);
-        //     }
-
-        //     if (!TryValidateModel(taskToPatch))
-        //     {
-        //         return BadRequest(ModelState);
-        //     }
-
-        //     _mapper.Map(taskToPatch, taskEntity);
-
-        //     await _toDoService.SaveChangesAsync();
-
-        //     return Ok(taskEntity); 
-
-
-
         // public async Task<ResponseDto> CreateTaskAsync(ToDoItemCreateDto toDoItemCreateDto)
         // {
         //     ToDoItem toDoItemEntity = _mapper.Map<ToDoItem>(toDoItemCreateDto);
@@ -223,6 +233,7 @@ namespace Task_Web_API.Services
         //         };
         //     }
         // }
+
 
 
 
