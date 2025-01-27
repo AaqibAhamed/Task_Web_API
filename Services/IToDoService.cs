@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.JsonPatch;
 using Task_Web_API.Entities;
 using Task_Web_API.Models;
 
@@ -12,6 +13,8 @@ namespace Task_Web_API.Services
         Task<ResponseDto> CreateTaskAsync(ToDoItemCreateDto toDoItemCreateDto );
 
         Task<ResponseDto> EditTaskAsync(Guid taskId, ToDoItemUpdateDto toDoItemUpdateDto);
+
+        Task<ResponseDto> PatchTaskAsync(Guid taskId, JsonPatchDocument<ToDoItemUpdateDto?> patchDocument);
 
         Task<ResponseDto> DeleteTaskAsync(Guid id);
 
