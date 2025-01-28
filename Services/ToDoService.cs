@@ -176,14 +176,16 @@ namespace Task_Web_API.Services
                 return new ResponseDto
                 {
                     Success = false,
-                    Message = "Task not found or already deleted."
+                    Message = "Task not found or already deleted.",
+                    Data = $"Task with id {id} not found."
                 };
             }
 
             return new ResponseDto
             {
                 Success = true,
-                Message = "Task deleted successfully."
+                Message = "Task deleted successfully.",
+                Data = $"Task with id {id} deleted."
             };
         }
 
