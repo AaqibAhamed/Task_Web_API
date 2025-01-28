@@ -52,16 +52,6 @@ namespace Task_Web_API.Controllers
         {
             var task = await _toDoService.GetTaskByIdAsync(taskId);
 
-            if (task == null)
-            {
-                return NotFound(new ProblemDetails
-                {
-                    Status = 404,
-                    Title = "Task not found",
-                    Detail = "The specified task was not found in the database."
-                });
-            }
-
             return Ok(new
             {
                 StatusCode = 200,
