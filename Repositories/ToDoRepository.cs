@@ -34,13 +34,11 @@ namespace Task_Web_API.Repositories
         {
             var existingTask = await FindTaskByIdAsync(taskId);
 
-            //_mapper.Map(existingTask, taskToUpdate);
-
             // // Manually update the properties
             existingTask.Title = taskToUpdate.Title;
             existingTask.Description = taskToUpdate.Description;
             existingTask.IsCompleted = taskToUpdate.IsCompleted;
-            existingTask.CreatedAt = DateTime.UtcNow; //taskToUpdate.CreatedAt;
+            existingTask.CreatedAt =  taskToUpdate.CreatedAt; //DateTime.UtcNow;
             existingTask.CompletedAt = taskToUpdate.CompletedAt;
 
             await _taskDbContext.SaveChangesAsync();
