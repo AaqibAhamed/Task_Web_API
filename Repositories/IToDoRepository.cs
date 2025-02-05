@@ -5,7 +5,7 @@ namespace Task_Web_API.Repositories
 {
     public interface IToDoRepository
     {
-        Task<IEnumerable<ToDoItem>> GetAllTasksAsync();
+        Task<IEnumerable<ToDoItem>> FindAllTasksAsync();
 
         Task<ToDoItem?> FindTaskByIdAsync(Guid taskId);
 
