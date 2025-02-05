@@ -1,149 +1,164 @@
+using Asp.Versioning;
 using AutoMapper;
-using Azure;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Task_Web_API.Entities;
+using Task_Web_API.Models;
+using Task_Web_API.Services;
 
-[ApiController]
-[Route("api/tasks")]
-public class TaskController : ControllerBase
+namespace Task_Web_API.Controllers
 {
-    //private readonly TaskDbContext _context;
-    private readonly IMapper _mapper;
-    private readonly ITaskRepository _taskRepository;
-    private readonly ILogger<TaskController> _logger;
+    [ApiController]
+    [Route("api/v{version:apiVersion}/tasks")]
+    [Authorize]
+    //[Authorize(policy: "MustBeWiki")]  // - IF you uncomment it use userName as "wiki"
+    [ApiVersion(1)]
+    [ApiVersion(2)]
 
-    public TaskController(IMapper mapper, ITaskRepository taskRepository, ILogger<TaskController> logger)
+    public class TaskController : ControllerBase
     {
-        //_context = context;
-        _mapper  = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _taskRepository = taskRepository ?? throw new ArgumentNullException(nameof(taskRepository));
-        _logger = logger ??  throw new ArgumentNullException(nameof(logger));
+        private readonly IToDoService _toDoService;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="toDoService"></param>
+        /// <exception cref="ArgumentNullException"></exception>
+        public TaskController(IToDoService toDoService)
+        {
+            _toDoService = toDoService ?? throw new ArgumentNullException(nameof(toDoService));
+        }
+
+        /// <summary>
+        /// Get All Tasks
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("getAllTasks")]
+        public async Task<IActionResult> GetAllTasks()
+        {
+            var response = await _toDoService.GetAllTasksAsync();
+
+            return Ok(response);
+        }
+
+        /// <summary>
+        /// Get a Task by Id
+        /// </summary>
+        /// <param name="taskId">The Id of the Task to get </param>
+        /// <returns> A Task with Details</returns>
+        [HttpGet("getTask")]
+        public async Task<ActionResult<ToDoItem>> GetTask(Guid taskId)
+        {
+            var task = await _toDoService.GetTaskByIdAsync(taskId);
+
+            return Ok(new
+            {
+                StatusCode = 200,
+                Message = "Task retrieved successfully",
+                Data = task
+
+            });
+        }
+
+        /// <summary>
+        /// Create a Task
+        /// </summary>
+        /// <param name="task"></param>
+        /// <returns></returns>
+        [HttpPost("createTask")]
+        public async Task<IActionResult> CreateTask(ToDoItemCreateDto task)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var responseData = await _toDoService.CreateTaskAsync(task);
+
+            if (!responseData.Success)
+            {
+                return NotFound(responseData);
+            }
+
+            return Ok(responseData);
+        }
+
+        /// <summary>
+        /// Update a Task
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <param name="taskToUpdate"></param>
+        /// <returns></returns>
+        [HttpPut("updateTask")]
+        public async Task<IActionResult> UpdateTask(Guid taskId, ToDoItemUpdateDto taskToUpdate)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var updatedTaskResponse = await _toDoService.EditTaskAsync(taskId, taskToUpdate);
+
+            if (!updatedTaskResponse.Success)
+            {
+                return BadRequest(updatedTaskResponse);  //NotFound  will be added in the future
+            }
+
+            return Ok(updatedTaskResponse);
+
+        }
+
+        /// <summary>
+        /// Partially Update a Task with patchDocument
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <param name="patchDocument"></param>
+        /// <returns></returns>
+        [HttpPatch("partiallyUpdateTask")]
+        public async Task<IActionResult> PartiallyUpdateTask(Guid taskId, JsonPatchDocument<ToDoItemUpdateDto?> patchDocument)
+        {
+            if (patchDocument == null)
+            {
+                return BadRequest(new ResponseDto
+                {
+                    Success = false,
+                    Message = "Patch document is empty",
+                    Data = null
+                });
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var patchResponse = await _toDoService.PatchTaskAsync(taskId, patchDocument);
+
+
+            if (!patchResponse.Success)
+            {
+                return NotFound(patchResponse);
+            }
+
+            return Ok(patchResponse);
+        }
+
+        /// <summary>
+        /// Delete Task
+        /// </summary>
+        /// <param name="taskId"></param>
+        /// <returns></returns>
+        [HttpDelete("deleteTask")]
+        public async Task<IActionResult> DeleteTask(Guid taskId)
+        {
+            var response = await _toDoService.DeleteTaskAsync(taskId);
+
+            if (!response.Success)
+                return NotFound(response); // Returns 404 if task not found
+
+            return Ok(response); // Returns 200 with success message
+
+        }
     }
-
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<Task>>> GetAllTasks()
-    {
-        var tasks = await _taskRepository.GetAllTasksAsync();
-
-        if(tasks == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(_mapper.Map<IEnumerable<TaskDto>>(tasks));
-    }
-
-    [HttpGet("{id}", Name ="GetTask")]
-    public async Task<ActionResult<Task>> GetTask(int id)
-    {
-        /* if(!await _taskRepository.TaskExistsAsync(id))
-        {
-            return NotFound();
-        } */
-        var task = await _taskRepository.GetTaskAsync(id);
-
-        if (task == null)
-        {
-            return NotFound();
-        }
-
-        return Ok(_mapper.Map<TaskDto>(task));
-    }
-
-    [HttpPost]
-    public async Task<ActionResult<TaskDto>> CreateTask(TaskCreateDto task)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        var taskToCreate = _mapper.Map<Task>(task);
-
-        _taskRepository.AddTask(taskToCreate);
-
-        await _taskRepository.SaveChangesAsync();
-
-        var createdTaskToReturn = _mapper.Map<TaskDto>(taskToCreate);
-
-        return CreatedAtAction(nameof(GetTask), new { id = createdTaskToReturn.Id }, createdTaskToReturn);
-    }
-
-    [HttpPut("{id}", Name ="UpdateTask")]
-    public async Task<ActionResult> UpdateTask(int id, TaskUpdateDto taskToUpdate)
-    {
-         if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        var taskEntity = await _taskRepository.GetTaskAsync(id);
-
-        if (taskEntity == null)
-        {
-            return NotFound();
-        }
-
-        _mapper.Map(taskToUpdate,taskEntity);
-
-        await _taskRepository.SaveChangesAsync();
-
-        return Ok(taskEntity); // return NoContent(); not looks nice
-
-    }
-
-    [HttpPatch("{id}")]
-    public async Task<ActionResult> PartiallyUpdateTask(int id, JsonPatchDocument<TaskUpdateDto> patchDocument)
-    {
-        var taskEntity = await _taskRepository.GetTaskAsync(id);
-
-        if(taskEntity == null)
-        {
-            return NotFound();
-        }
-
-        var taskToPatch = _mapper.Map<TaskUpdateDto>(taskEntity);
-
-        patchDocument.ApplyTo(taskToPatch, ModelState);
-
-        if(!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        if(!TryValidateModel(taskToPatch))
-        {
-            return BadRequest(ModelState);
-        }
-
-        _mapper.Map(taskToPatch,taskEntity);
-
-        await _taskRepository.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-     [HttpDelete("{id}")]
-    public async Task<ActionResult> DeleteTask(int id)
-    {
-      /*   if(! await _taskRepository.TaskExistsAsync(id))
-        {
-            return NotFound();
-        } */
-        var taskEntity = await _taskRepository.GetTaskAsync(id);
-
-        if(taskEntity == null)
-        {
-            return NotFound();
-        }
-
-        _taskRepository.DeleteTask(taskEntity);
-
-        await _taskRepository.SaveChangesAsync();
-
-        return NoContent();
-    }
-
-
 }
