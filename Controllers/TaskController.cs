@@ -35,7 +35,7 @@ namespace Task_Web_API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("getAllTasks")]
-        public async Task<ActionResult<IEnumerable<ToDoItem>>> GetAllTasks()
+        public async Task<IActionResult> GetAllTasks()
         {
             var response = await _toDoService.GetAllTasksAsync();
 
