@@ -25,7 +25,7 @@ namespace Task_Web_API.Services
         {
             try
             {
-                var tasksList = await _toDoRepository.GetAllTasksAsync();
+                var tasksList = await _toDoRepository.FindAllTasksAsync();
 
                 if (tasksList == null)
                 {
@@ -99,7 +99,7 @@ namespace Task_Web_API.Services
             }
         }
 
-        public async Task<ResponseDto> EditTaskAsync(Guid taskId, ToDoItemUpdateDto toDoItemUpdateDto)
+        public async Task<ResponseDto> EditTaskAsync(Guid taskId, ToDoItemUpdateDto? toDoItemUpdateDto)
         {
             try
             {
