@@ -14,7 +14,7 @@ namespace Task_Web_API.Repositories
             _taskDbContext = taskDbContext ?? throw new ArgumentNullException(nameof(taskDbContext));
         }
 
-        public async Task<IEnumerable<ToDoItem>> GetAllTasksAsync()
+        public async Task<IEnumerable<ToDoItem>> FindAllTasksAsync()
         {
             return await _taskDbContext.ToDoItems.OrderBy(t => t.Title).AsNoTracking().ToListAsync();  //Add an (non-clusterd) index on the Title column in the database to improve performance.
         }
