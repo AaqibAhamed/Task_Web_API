@@ -12,7 +12,7 @@ namespace Task_Web_API.Services
 
         Task<ResponseDto> CreateTaskAsync(ToDoItemCreateDto toDoItemCreateDto);
 
-        Task<ResponseDto> EditTaskAsync(Guid taskId, ToDoItemUpdateDto toDoItemUpdateDto);
+        Task<ResponseDto> EditTaskAsync(Guid taskId, ToDoItemUpdateDto? toDoItemUpdateDto);
 
         Task<ResponseDto> PatchTaskAsync(Guid taskId, JsonPatchDocument<ToDoItemUpdateDto?> patchDocument);
 
